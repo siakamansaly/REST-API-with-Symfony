@@ -2,6 +2,7 @@
 
 namespace App\Validator\Constraints;
 
+use App\Entity\Customer;
 use App\Repository\CustomerRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -18,11 +19,11 @@ final class CustomerPropertiesValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-
         $customer = $this->customerRepository->findOneBy(['name' => $value]);
-
+        
         if (!$customer) {
             $this->context->buildViolation($constraint->message)->addViolation();
         }
+        
     }
 }

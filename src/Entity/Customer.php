@@ -5,13 +5,17 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
 use App\Validator\Constraints\CustomerProperties as CustomerProperties; // A custom constraint
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
+ * @UniqueEntity(fields={"name"}, message="There is already an customer with this name", groups={"create:customer"})
+ * @ApiResource()
  */
 class Customer
 {
@@ -25,8 +29,8 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Groups({"read:user", "create:user"})
-     * @NotBlank(message="Your firstname is required")
-     * @CustomerProperties
+     * @NotBlank(message="Customer name's is required")
+     * @CustomerProperties(groups={"read:user", "create:user"})
      */
     private $name;
 
