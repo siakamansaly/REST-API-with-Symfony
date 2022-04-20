@@ -1,7 +1,28 @@
 api_platform:
+    # The title of the API.
+    title: 'BileMo API'
+    # The description of the API.
+    description: 'The web service of the company BileMo'
+    # Set this to false if you want Webby to disappear.
+    show_webby: false
+    # The version of the API.
+    version: '1.0.0'
+    defaults:
+        pagination_items_per_page: 10 # Default value
+        url_generation_strategy: !php/const ApiPlatform\Core\Api\UrlGeneratorInterface::ABS_URL
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:
         versions: [3]
+    formats:
+        json:     ['application/json']
+        html:     ['text/html']
+        jsonld:   ['application/ld+json']
+        jsonhal:  ['application/hal+json']
+        jsonapi:  ['application/vnd.api+json']
+        # xml:      ['application/xml', 'text/xml']
+        # yaml:     ['application/x-yaml']
+        # csv:      ['text/csv']
+        # myformat: ['application/vnd.myformat']
