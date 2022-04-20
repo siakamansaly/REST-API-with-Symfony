@@ -2,29 +2,57 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use ApiPlatform\Core\Action\NotFoundAction;
+use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Validator\Constraints\UserProperties as UserProperties;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints\Valid;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Email as Email;
+use Symfony\Component\Validator\Constraints\Length as Length;
+use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email", groups={"create:user"})
+ * @ApiResource(
+ *  normalizationContext={"groups"={"read:user"}, "openapi_definition_name"="Collection"},
+ *  denormalizationContext={"groups"={"create:user"}, "openapi_definition_name"="Creation"},
+ *  collectionOperations={
+ *      "get",
+ *      "post"
+ *  },
+ *  itemOperations={
+ *      "get",
+ *      "put",
+ *      "delete",
+ *      "patch",
+ *  }
+ * )
  */
+ 
+
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:user"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"read:user", "create:user"})
+     * @Email(message="The email '{{ value }}' is not a valid email.")
+     * @UserProperties
      */
     private $email;
 
@@ -36,22 +64,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups("create:user")
+     * @Length(min=8, minMessage="Your password must be at least 8 characters long.")
+     * @NotBlank(message="Your password is required")
      */
     private $password;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"read:user", "create:user"})
+     * @NotBlank(message="Your firstname is required")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
+     * @Groups({"read:user", "create:user"})
+     * @NotBlank(message="Your lastname is required")
      */
     private $lastname;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:user", "create:user"})
+     * @Valid()
      */
     private $customer;
 
@@ -211,7 +248,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeProduct(Product $product): self
     {
         if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless alread:usery changed)
             if ($product->getUser() === $this) {
                 $product->setUser(null);
             }
