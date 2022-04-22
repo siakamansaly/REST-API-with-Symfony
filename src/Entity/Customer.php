@@ -4,18 +4,43 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\CustomerRepository;
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\Api\CustomerCreateController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
+use App\Controller\Api\Customer\CustomerDeleteController;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
-use App\Validator\Constraints\CustomerProperties as CustomerProperties; // A custom constraint
+
 
 /**
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
- * @UniqueEntity(fields={"name"}, message="There is already an customer with this name", groups={"create:customer"})
- * @ApiResource()
+ * @UniqueEntity("name", message="This name is already used.", groups={"create:customer"})
+ * @ApiResource(
+ *      attributes={"order"={"createdAt": "DESC"}},
+ *      paginationEnabled=false,
+ *      normalizationContext={"groups"={"read:customer"}},
+ *      denormalizationContext={"groups"={"create:customer"}},
+ *  collectionOperations={
+ *      "get" = {"normalization_context"={"groups"={"read:customer"}}},
+ *      "post" = {
+ *         "denormalization_context"={"groups"={"create:customer"}},
+ *         "controller" = App\Controller\Api\Customer\CustomerCreateController::class
+ *       }
+ *  },
+ *  itemOperations={
+ *      "get"={"normalization_context"={"groups"={"read:customer", "read:customer:full"}}},
+ *      "patch"= {
+ *          "normalization_context"={"groups"={"read:customer"}},
+ *         "denormalization_context"={"groups"={"create:customer"}},
+ *         "controller" = App\Controller\Api\Customer\CustomerEditController::class
+ *       },
+ *      "delete"
+ * )
+ * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
  */
 class Customer
 {
@@ -23,19 +48,20 @@ class Customer
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:customer"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"read:user", "create:user"})
+     * @Groups({"read:user", "create:user", "create:customer", "read:customer"})
      * @NotBlank(message="Customer name's is required")
-     * @CustomerProperties(groups={"read:user", "create:user"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read:customer:full"})
      */
     private $createdAt;
 
@@ -44,9 +70,13 @@ class Customer
      */
     private $users;
 
+    
+    private $countUsers;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->countUsers = count($this->users);
     }
 
     public function getId(): ?int
@@ -106,5 +136,13 @@ class Customer
         }
 
         return $this;
+    }
+
+    /**
+     * @Groups({"read:customer"})
+     */
+    public function getCountUsers(): int
+    {
+        return count($this->users);
     }
 }

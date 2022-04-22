@@ -5,6 +5,7 @@ use DateTime;
 use App\Entity\Customer;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 final class CustomerDataPersister implements DataPersisterInterface
 {
