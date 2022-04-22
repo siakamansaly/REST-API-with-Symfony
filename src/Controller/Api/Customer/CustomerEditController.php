@@ -22,7 +22,7 @@ class CustomerEditController extends AbstractController
        
         if ($customer && $customer->getId() !== $data->getId()) {
             $this->errors['customer_exist'] = 'This customer already exists';
-            return $this->json(['errors' => $this->errors], 400);
+            return $this->json(['errors' => $this->errors], 422);
         }
         return $data;
     }

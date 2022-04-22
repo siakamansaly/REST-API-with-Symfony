@@ -28,7 +28,7 @@ class UserEditController extends AbstractController
         }
 
         if ($this->errors) {
-            return $this->json(['errors' => $this->errors], 400);
+            return $this->json(['errors' => $this->errors], 422);
         }
 
         return $data;

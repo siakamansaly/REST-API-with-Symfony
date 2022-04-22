@@ -39,6 +39,7 @@ use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
  *         "controller" = App\Controller\Api\Customer\CustomerEditController::class
  *       },
  *      "delete"
+ * }
  * )
  * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
  */
