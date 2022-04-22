@@ -6,16 +6,19 @@ use App\Entity\Customer;
 use App\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 final class UserDataPersister implements DataPersisterInterface
 {
     private $entityManager;
     private $customerRepository;
+    private $passwordHasher;
 
-    public function __construct(EntityManagerInterface $entityManager, CustomerRepository $customerRepository)
+    public function __construct(EntityManagerInterface $entityManager, CustomerRepository $customerRepository, UserPasswordHasherInterface $passwordHasher)
     {
         $this->entityManager = $entityManager;
         $this->customerRepository = $customerRepository;
+        $this->passwordHasher = $passwordHasher;
     }
 
 
@@ -26,7 +29,9 @@ final class UserDataPersister implements DataPersisterInterface
 
     public function persist($data, array $context = [])
     {
-        
+        // Hash password
+        $data->setPassword($this->passwordHasher->hashPassword($data, $data->getPassword()));
+
         // Set Role User 
         $data->setRoles(['ROLE_USER']);
         
