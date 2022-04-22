@@ -26,3 +26,7 @@ api_platform:
         # yaml:     ['application/x-yaml']
         # csv:      ['text/csv']
         # myformat: ['application/vnd.myformat']
+    error_formats:
+        jsonproblem:                   ['application/problem+json']
+        jsonld:                        ['application/ld+json']      # Hydra error formats
+        jsonapi:                       ['application/vnd.api+json']
