@@ -2,13 +2,33 @@
 
 namespace App\Entity;
 
-use App\Repository\TypeProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\TypeProductRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=TypeProductRepository::class)
+ * @ApiResource(
+ *      attributes={"order"={"id": "ASC"}},
+ *      normalizationContext={"groups"={"read:type"}},
+ *      denormalizationContext={"groups"={"create:type"}},
+ *  collectionOperations={
+ *      "get",
+ *      "post" = {
+ *         "denormalization_context"={"groups"={"create:type"}},
+ *       }
+ *  },
+ *  itemOperations={
+ *      "get" = {"normalization_context"={"groups"={"read:type", "read:type:full"}}},
+ *      "patch"= {
+ *         "denormalization_context"={"groups"={"create:type"}},
+ *       },
+ *      "delete"
+ * }
+ * )
  */
 class TypeProduct
 {
@@ -16,16 +36,19 @@ class TypeProduct
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:product", "read:type"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"read:product", "create:product", "read:type", "create:type"})
      */
     private $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="typeProduct")
+     * @Groups({"read:type:full"})
      */
     private $products;
 
