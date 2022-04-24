@@ -7,13 +7,14 @@ use App\Repository\UserRepository;
 use ApiPlatform\Core\Action\NotFoundAction;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Validator\Constraints\UserProperties as UserProperties;
 use Doctrine\Common\Collections\ArrayCollection;
+use App\Controller\Api\User\UserCreateController;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Email as Email;
 use Symfony\Component\Validator\Constraints\Length as Length;
+use App\Validator\Constraints\UserProperties as UserProperties;
 use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
@@ -23,16 +24,21 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email", groups={"create:user"})
  * @ApiResource(
  *  normalizationContext={"groups"={"read:user"}, "openapi_definition_name"="Collection"},
- *  denormalizationContext={"groups"={"create:user"}, "openapi_definition_name"="Creation"},
+ *  denormalizationContext={"groups"={"create:user", "edit:user"}, "openapi_definition_name"="Creation"},
  *  collectionOperations={
  *      "get",
- *      "post"
+ *      "post"= {
+ *         "denormalization_context"={"groups"={"create:user"}},
+ *         "controller" = App\Controller\Api\User\UserCreateController::class
+ *       }
  *  },
  *  itemOperations={
  *      "get",
- *      "put",
  *      "delete",
- *      "patch",
+ *      "patch"= {
+ *         "denormalization_context"={"groups"={"edit:user"}},
+ *         "controller" = App\Controller\Api\User\UserEditController::class
+ *       },
  *  }
  * )
  */
@@ -50,9 +56,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"read:user", "create:user"})
+     * @Groups({"read:user", "create:user", "edit:user"})
      * @Email(message="The email '{{ value }}' is not a valid email.")
-     * @UserProperties
      */
     private $email;
 
@@ -64,7 +69,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Groups("create:user")
+     * @Groups({"create:user", "edit:user"})
      * @Length(min=8, minMessage="Your password must be at least 8 characters long.")
      * @NotBlank(message="Your password is required")
      */
@@ -72,14 +77,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"read:user", "create:user"})
+     * @Groups({"read:user", "create:user", "edit:user"})
      * @NotBlank(message="Your firstname is required")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
-     * @Groups({"read:user", "create:user"})
+     * @Groups({"read:user", "create:user", "edit:user"})
      * @NotBlank(message="Your lastname is required")
      */
     private $lastname;
@@ -88,7 +93,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      * @Groups({"read:user", "create:user"})
-     * @Valid()
      */
     private $customer;
 
