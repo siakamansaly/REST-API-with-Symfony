@@ -2,15 +2,36 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ApiResource(
+ *      attributes={"order"={"id": "ASC"}},
+ *      normalizationContext={"groups"={"read:product"}},
+ *      denormalizationContext={"groups"={"create:product"}},
+ *  collectionOperations={
+ *      "get" = {"normalization_context"={"groups"={"read:product"}}},
+ *      "post" = {
+ *         "denormalization_context"={"groups"={"create:product"}},
+ *         "controller" = App\Controller\Api\Product\ProductCreateController::class
+ *       }
+ *  },
+ *  itemOperations={
+ *      "get"={"normalization_context"={"groups"={"read:product", "read:product:full"}}},
+ *      "patch"= {
+ *          "normalization_context"={"groups"={"read:product"}},
+ *         "denormalization_context"={"groups"={"create:product"}},
+ *         "controller" = App\Controller\Api\Product\ProductEditController::class
+ *       },
+ *      "delete"
+ * }
+ * )
  */
 class Product
 {
@@ -18,41 +39,49 @@ class Product
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read:product"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Groups({"read:product"})
      */
     private $reference;
 
     /**
      * @ORM\Column(type="string", length=100)
+     * @Groups({"read:product", "create:product"})
      */
     private $name;
 
     /**
      * @ORM\Column(type="text", nullable=true)
+     * @Groups({"read:product", "create:product"})
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"read:product", "create:product"})
      */
     private $coverImage;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"read:product:full"})
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({"read:product", "create:product"})
      */
     private $price;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Groups({"read:product"})
      */
     private $stock;
 
@@ -64,11 +93,13 @@ class Product
     /**
      * @ORM\ManyToOne(targetEntity=TypeProduct::class, inversedBy="products")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"read:product", "create:product"})
      */
     private $typeProduct;
 
     /**
      * @ORM\OneToMany(targetEntity=MediaPicture::class, mappedBy="product", orphanRemoval=true)
+     * @Groups({"read:product:full"})
      */
     private $mediaPictures;
 
