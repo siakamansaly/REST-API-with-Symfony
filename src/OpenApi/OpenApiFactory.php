@@ -17,13 +17,22 @@ class OpenApiFactory implements OpenApiFactoryInterface
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = $this->decorated->__invoke($context);
+        
+        $openApi = $this->disableGetPath($openApi);
+        
+        return $openApi;
+    }
+
+    public function disableGetPath(OpenApi $openApi): OpenApi
+    {
         // ** @var PathItem $path */
         foreach ($openApi->getPaths()->getPaths() as $key => $path) {
             if($path->getGet() && $path->getGet()->getSummary() === self::SUMMARY) {
                 $openApi->getPaths()->addPath($key, $path->withGet(null));
             }
         }
-        
         return $openApi;
     }
+
+
 }

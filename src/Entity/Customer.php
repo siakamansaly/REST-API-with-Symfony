@@ -25,10 +25,14 @@ use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
  *      normalizationContext={"groups"={"read:customer"}},
  *      denormalizationContext={"groups"={"create:customer"}},
  *  collectionOperations={
- *      "get" = {"normalization_context"={"groups"={"read:customer"}}},
+ *      "get" = {"normalization_context"={"groups"={"read:customer"}},
+ * "openapi_context" = {
+ *              "summary" :"Hidden"}},
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:customer"}},
- *         "controller" = App\Controller\Api\Customer\CustomerCreateController::class
+ *         "controller" = App\Controller\Api\Customer\CustomerCreateController::class,
+ *         "openapi_context" = {
+ *              "summary" :"Hidden"}
  *       }
  *  },
  *  itemOperations={
