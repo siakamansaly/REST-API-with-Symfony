@@ -12,21 +12,35 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=TypeProductRepository::class)
  * @ApiResource(
- *      attributes={"order"={"id": "ASC"}},
+ *      attributes={
+ *        "order"={"id": "ASC"},
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *      },
  *      normalizationContext={"groups"={"read:type"}},
  *      denormalizationContext={"groups"={"create:type"}},
  *  collectionOperations={
- *      "get",
+ *      "get" ={
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *       },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:type"}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}}
  *       }
  *  },
  *  itemOperations={
- *      "get" = {"normalization_context"={"groups"={"read:type", "read:type:full"}}},
+ *      "get" = {
+ *          "normalization_context"={"groups"={"read:type", "read:type:full"}},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:type"}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}}
  *       },
- *      "delete"
+ *      "delete" = {
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}}
+ *       }
  * }
  * )
  */

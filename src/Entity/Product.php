@@ -12,24 +12,39 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
  * @ApiResource(
- *      attributes={"order"={"id": "ASC"}},
+ *      attributes={
+ *        "order"={"id": "ASC"}
+ *      },
  *      normalizationContext={"groups"={"read:product"}},
  *      denormalizationContext={"groups"={"create:product"}},
  *  collectionOperations={
- *      "get" = {"normalization_context"={"groups"={"read:product"}}},
+ *      "get" = {"normalization_context"={"groups"={"read:product"}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *      },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:product"}},
- *         "controller" = App\Controller\Api\Product\ProductCreateController::class
+ *         "controller" = App\Controller\Api\AlreadyExistsController::class,
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('ROLE_ADMIN')"
  *       }
  *  },
  *  itemOperations={
- *      "get"={"normalization_context"={"groups"={"read:product", "read:product:full"}}},
- *      "patch"= {
- *          "normalization_context"={"groups"={"read:product"}},
- *         "denormalization_context"={"groups"={"create:product"}},
- *         "controller" = App\Controller\Api\Product\ProductEditController::class
+ *      "get"={"normalization_context"={"groups"={"read:product", "read:product:full"}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('IS_AUTHENTICATED_FULLY')"
  *       },
- *      "delete"
+ *      "patch"= {
+ *         "normalization_context"={"groups"={"read:product"}},
+ *         "denormalization_context"={"groups"={"create:product"}},
+ *         "controller" = App\Controller\Api\AlreadyExistsController::class,
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('ROLE_ADMIN')"
+ *       },
+ *      "delete" = {
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('ROLE_ADMIN')"
+ *      }
  * }
  * )
  */

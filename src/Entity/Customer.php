@@ -20,29 +20,34 @@ use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
  * @ORM\Entity(repositoryClass=CustomerRepository::class)
  * @UniqueEntity("name", message="This name is already used.", groups={"create:customer"})
  * @ApiResource(
- *      attributes={"order"={"createdAt": "DESC"}},
+ *      attributes={
+ *        "order"={"createdAt": "DESC"},
+ *        "security"="is_granted('ROLE_ADMIN')"
+ *      },
  *      paginationEnabled=false,
  *      normalizationContext={"groups"={"read:customer"}},
  *      denormalizationContext={"groups"={"create:customer"}},
  *  collectionOperations={
  *      "get" = {"normalization_context"={"groups"={"read:customer"}},
- * "openapi_context" = {
- *              "summary" :"Hidden"}},
+ *      "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *      },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:customer"}},
- *         "controller" = App\Controller\Api\Customer\CustomerCreateController::class,
- *         "openapi_context" = {
- *              "summary" :"Hidden"}
- *       }
+ *         "controller" = App\Controller\Api\AlreadyExistsController::class,
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *     }
  *  },
  *  itemOperations={
- *      "get"={"normalization_context"={"groups"={"read:customer", "read:customer:full"}}},
+ *      "get"={"normalization_context"={"groups"={"read:customer", "read:customer:full"}},
+ *             "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *       },
  *      "patch"= {
  *          "normalization_context"={"groups"={"read:customer"}},
  *         "denormalization_context"={"groups"={"create:customer"}},
- *         "controller" = App\Controller\Api\Customer\CustomerEditController::class
+ *         "controller" = App\Controller\Api\AlreadyExistsController::class,
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
  *       },
- *      "delete"
+ *      "delete"={"openapi_context"={"security"={{"bearerAuth"={}}}},}
  * }
  * )
  * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
@@ -59,7 +64,7 @@ class Customer
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Groups({"read:user", "create:user", "create:customer", "read:customer"})
+     * @Groups({"read:user", "create:customer", "read:customer"})
      * @NotBlank(message="Customer name's is required")
      */
     private $name;
@@ -75,13 +80,10 @@ class Customer
      */
     private $users;
 
-    
-    private $countUsers;
 
     public function __construct()
     {
         $this->users = new ArrayCollection();
-        $this->countUsers = count($this->users);
     }
 
     public function getId(): ?int
