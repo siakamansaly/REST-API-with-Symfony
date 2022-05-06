@@ -71,7 +71,7 @@ class AppUserAuthenticator extends AbstractLoginFormAuthenticator
     public function start(Request $request, AuthenticationException $authException = null) : Response
     {
         if(in_array('application/json', $request->getAcceptableContentTypes())) {
-            return new JsonResponse('You have been logged out', Response::HTTP_UNAUTHORIZED);
+            return new JsonResponse(null, Response::HTTP_UNAUTHORIZED);
         }
 
         $url = $this->getLoginUrl($request);

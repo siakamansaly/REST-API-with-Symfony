@@ -11,7 +11,7 @@ class CustomerFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $customers = ['BileMo','Customer1'];
+        $customers = ['BileMo','Customer1','Lorem','Ipsum'];
 
         foreach ($customers as $customer) {
             $client = new Customer();

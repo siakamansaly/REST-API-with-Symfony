@@ -21,6 +21,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 
     public function load(ObjectManager $manager)
     {
+        // Add admin user
         $client = $manager->getRepository(Customer::class)->findOneBy(['name' => 'BileMo']);
         $user = new User();
         $user->setFirstname('admin');
@@ -32,28 +33,39 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user->setPassword($password);
         $manager->persist($user);
 
-        $client = $manager->getRepository(Customer::class)->findOneBy(['name' => 'Customer1']);
-        $user = new User();
-        $user->setFirstname('Client');
-        $user->setLastname('Customer');
-        $user->setEmail('customer@example.fr');
-        $user->setRoles(['ROLE_CUSTOMER']);
-        $user->setCustomer($client);
-        $password = $this->hasher->hashPassword($user, 'password');
-        $user->setPassword($password);
-        $manager->persist($user);
-
-        for ($i = 1; $i < 11; $i++) {
-            $user = new User();
-            $user->setFirstname('User');
-            $user->setLastname($i);
-            $user->setEmail('user'.$i.'@example.fr');
-            $user->setRoles(['ROLE_USER']);
-            $user->setCustomer($client);
-            $password = $this->hasher->hashPassword($user, 'password');
-            $user->setPassword($password);
-            $manager->persist($user);
+        // Add customer users
+        $customers = $manager->getRepository(Customer::class)->findAll();
+        foreach ($customers as $customer) {
+            if ($customer->getName() !== 'BileMo') {
+                $user = new User();
+                $user->setFirstname('Client');
+                $user->setLastname($customer->getName());
+                $user->setEmail(strtolower($customer->getName()).'@example.fr');
+                $user->setRoles(['ROLE_CUSTOMER']);
+                $user->setCustomer($customer);
+                $password = $this->hasher->hashPassword($user, 'password');
+                $user->setPassword($password);
+                $manager->persist($user);
+            }
         }
+
+        // Add users
+        foreach ($customers as $customer) {
+            if ($customer->getName() !== 'BileMo') {
+                for ($i = 1; $i < rand(2, 15); $i++) {
+                    $user = new User();
+                    $user->setFirstname('User'.$i);
+                    $user->setLastname($customer->getName());
+                    $user->setEmail('user'.$i.'@'.strtolower($customer->getName()).'.fr');
+                    $user->setRoles(['ROLE_USER']);
+                    $user->setCustomer($customer);
+                    $password = $this->hasher->hashPassword($user, 'password');
+                    $user->setPassword($password);
+                    $manager->persist($user);
+                }
+            }
+        }
+
         $manager->flush();
     }
 
