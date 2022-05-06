@@ -10,20 +10,34 @@ use Symfony\Component\Serializer\Annotation\Groups;
 /**
  * @ORM\Entity(repositoryClass=MediaPictureRepository::class)
  * @ApiResource(
- *      attributes={"order"={"id": "ASC"}},
+ *      attributes={
+ *        "order"={"id": "ASC"}
+ *      },
  *      denormalizationContext={"groups"={"create:media"}},
  *  collectionOperations={
- *      "get",
+ *      "get" = {
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "security"="is_granted('IS_AUTHENTICATED_FULLY')"},
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:media"}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('ROLE_ADMIN')"
  *       }
  *  },
  *  itemOperations={
- *      "get",
+ *      "get" ={
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "security"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:media"}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "security"="is_granted('ROLE_ADMIN')"
  *       },
- *      "delete"
+ *      "delete" = {
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "security"="is_granted('ROLE_ADMIN')"
+ *      }
  * }
  * )
  */

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
+use App\Controller\Api\UserItemController;
 use ApiPlatform\Core\Action\NotFoundAction;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -26,18 +27,43 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
  *  normalizationContext={"groups"={"read:user"}, "openapi_definition_name"="Collection"},
  *  denormalizationContext={"groups"={"create:user", "edit:user"}, "openapi_definition_name"="Creation"},
  *  collectionOperations={
- *      "get",
+ *      "me"={ 
+ *            "method"="GET", 
+ *            "path"="/users/me", 
+ *            "controller"=App\Controller\Api\UserController::class, 
+ *            "pagination_enabled"=false,
+ *            "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *            "openapi_context"={"summary"="Get the current user", "security"={{"bearerAuth"={}}}},
+ *       },
+ *      "token"={
+ *          "method"="POST",  
+ *          "path"="/token",
+ *          "route_prefix"="/",},
+ *      "get" ={
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "security"="is_granted('USER_VIEW')"
+ *       },
  *      "post"= {
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
  *         "denormalization_context"={"groups"={"create:user"}},
- *         "controller" = App\Controller\Api\User\UserCreateController::class
+ *         "controller"=App\Controller\Api\AlreadyExistsController::class, 
+ *         "security"="is_granted('ROLE_CUSTOMER') or is_granted('ROLE_ADMIN')",
  *       }
  *  },
  *  itemOperations={
- *      "get",
- *      "delete",
+ *      "get"= {
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('USER_VIEW', object)"
+ *       },
+ *      "delete"= {
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "security"="is_granted('USER_DELETE', object)"
+ *       },
  *      "patch"= {
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}},
  *         "denormalization_context"={"groups"={"edit:user"}},
- *         "controller" = App\Controller\Api\User\UserEditController::class
+ *         "controller" = App\Controller\Api\AlreadyExistsController::class,
+ *         "security"="is_granted('USER_EDIT', object)"
  *       },
  *  }
  * )
@@ -92,7 +118,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\ManyToOne(targetEntity=Customer::class, inversedBy="users", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"read:user", "create:user"})
+     * @Groups({"read:user"})
      */
     private $customer;
 

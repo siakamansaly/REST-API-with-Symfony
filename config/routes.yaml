@@ -1,6 +1,3 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
-authentication_token:
-    path: /authentication_token
+api_token:
+    path: /token
     methods: ['POST']
