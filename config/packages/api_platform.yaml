@@ -30,7 +30,7 @@ api_platform:
         jsonld:   ['application/ld+json']
         json:     ['application/json']
         html:     ['text/html']
-        jsonapi:  ['application/vnd.api+json']
+        # jsonapi:  ['application/vnd.api+json']
         # xml:      ['application/xml', 'text/xml']
         # yaml:     ['application/x-yaml']
         # csv:      ['text/csv']
@@ -38,7 +38,7 @@ api_platform:
     error_formats:
         jsonproblem:                   ['application/problem+json']
         jsonld:                        ['application/ld+json']      # Hydra error formats
-        jsonapi:                       ['application/vnd.api+json']
+        # jsonapi:                       ['application/vnd.api+json']
 
     #http_cache:
         #invalidation:
