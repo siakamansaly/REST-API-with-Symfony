@@ -23,7 +23,7 @@ security:
             jwt: ~
 
         api_login:
-            pattern: ^/token$
+            pattern: ^/_token$
             stateless: true
             lazy: true
             # provider: app_user_provider
@@ -60,7 +60,7 @@ security:
     access_control:
         - { path: ^/api$, roles: [ROLE_CUSTOMER, ROLE_ADMIN]  } # Allows accessing the Swagger UI
         - { path: ^/api/, roles: [ROLE_USER, ROLE_CUSTOMER, ROLE_ADMIN]  } # Allows accessing the Swagger UI
-        - { path: ^/api/token$, roles: PUBLIC_ACCESS }
+        - { path: ^/_token$, roles: PUBLIC_ACCESS }
         - { path: ^/$, roles: PUBLIC_ACCESS }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
