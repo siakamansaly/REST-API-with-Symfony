@@ -7,8 +7,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://github.com/siakamansaly/Blog_PHP_MVC">
-    <img src="public/logo_blue.png" alt="Logo">
+  <a href="https://github.com/siakamansaly/REST-API-with-Symfony">
+    <img src="public/images/logo_blue.png" alt="Logo">
   </a>
   <h1 align="center">REST-API-with-Symfony</h1>
   <p align="center">
@@ -20,7 +20,7 @@
 ## About The Project
 
 <div align="center">
-    <img src="public/Screenshot.png" alt="Screenshot" width="700px">
+    <img src="public/images/Screenshot.png" alt="Screenshot" width="700px">
 </div>
 <p>Creation of a REST API allowing a customer to expose products to its users</p>
 <p>The project contains:</p>
