@@ -33,37 +33,39 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
  *            "controller"=App\Controller\Api\UserController::class, 
  *            "pagination_enabled"=false,
  *            "security"="is_granted('IS_AUTHENTICATED_FULLY')",
- *            "openapi_context"={"summary"="Get the current user", "security"={{"bearerAuth"={}}}},
+ *            "security_message"="You must be logged in to access this resource",
+ *            "openapi_context"={"summary"="Get the current user", "security"={{"bearerAuth"={}}}}, 
  *       },
- *      "token"={
- *          "method"="POST",  
- *          "path"="/token",
- *          "route_prefix"="/",},
- *      "get" ={
+ *      "get"={
  *          "openapi_context"={"security"={{"bearerAuth"={}}}},
- *          "security"="is_granted('USER_VIEW')"
+ *          "security"="is_granted('ROLE_CUSTOMER') or is_granted('ROLE_ADMIN')",
+ *          "security_message"="Only customers or admins can access this resource",
  *       },
  *      "post"= {
  *         "openapi_context"={"security"={{"bearerAuth"={}}}},
  *         "denormalization_context"={"groups"={"create:user"}},
  *         "controller"=App\Controller\Api\AlreadyExistsController::class, 
  *         "security"="is_granted('ROLE_CUSTOMER') or is_granted('ROLE_ADMIN')",
+ *         "security_message"="Only admins or customers can add users",
  *       }
  *  },
  *  itemOperations={
  *      "get"= {
  *         "openapi_context"={"security"={{"bearerAuth"={}}}},
- *         "security"="is_granted('USER_VIEW', object)"
+ *         "security"="is_granted('USER_VIEW', object)",
+ *         "security_message"="Restricted to owner customer or admins",
  *       },
  *      "delete"= {
  *         "openapi_context"={"security"={{"bearerAuth"={}}}},
- *         "security"="is_granted('USER_DELETE', object)"
+ *         "security"="is_granted('USER_DELETE', object)",
+ *         "security_message"="Restricted to owner customer or admins",
  *       },
  *      "patch"= {
  *         "openapi_context"={"security"={{"bearerAuth"={}}}},
  *         "denormalization_context"={"groups"={"edit:user"}},
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "security"="is_granted('USER_EDIT', object)"
+ *         "security"="is_granted('USER_EDIT', object)",
+ *         "security_message"="Restricted to owner user or owner customer or admins",
  *       },
  *  }
  * )

@@ -31,14 +31,13 @@ class UserVoter extends Voter
 
     protected function voteOnAttribute(string $attribute, $subject, TokenInterface $token): bool
     {
-        // if the user is admin, they can do anything
-        if ($this->security->isGranted('ROLE_ADMIN')) {
-            return true;
-        }
-
         // if the user is anonymous, do not grant access
         if (!$token->getUser() instanceof UserInterface) {
             return false;
+        }
+        // if the user is admin, they can do anything
+        if ($this->security->isGranted('ROLE_ADMIN')) {
+            return true;
         }
 
         // ... (check conditions and return true to grant permission) ...
@@ -47,13 +46,13 @@ class UserVoter extends Voter
                 return $this->canEditUser($subject, $token->getUser());
                 break;
             case self::USER_DELETE:
-                return $this->canManageUser($subject, $token->getUser());
+                return $this->canCreateOrDeleteUser($subject, $token->getUser());
                 break;
             case self::USER_ADD:
-                return $this->canManageUser($subject, $token->getUser());
+                return $this->canCreateOrDeleteUser($subject, $token->getUser());
                 break;
             case self::USER_VIEW:
-                return $this->canManageUser($subject, $token->getUser());
+                return $this->canShowUser($subject, $token->getUser());
                 break;
         }
 
@@ -68,11 +67,23 @@ class UserVoter extends Voter
         return $user === $currentUser;
     }
 
-    private function canManageUser(User $currentUser, User $user): bool
+    private function canCreateOrDeleteUser(User $currentUser, User $user): bool
     {
         if($this->security->isGranted('ROLE_CUSTOMER') && $currentUser->getCustomer() === $user->getCustomer()) {
             return true;
         }
+        return false;
+    }
+
+    private function canShowUser(User $currentUser, User $user): bool
+    {
+        if($this->security->isGranted('ROLE_CUSTOMER') && $currentUser->getCustomer() === $user->getCustomer()) {
+            return true;
+        }
+        if($currentUser === $user) {
+            return true;
+        }
+        
         return false;
     }
 
