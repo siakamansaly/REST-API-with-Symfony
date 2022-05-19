@@ -16,32 +16,32 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"create:media"}},
  *  collectionOperations={
  *      "get" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo product pictures"},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *          "security_message"="You must be logged in to access this resource",
  *     },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:media"}},
  *         "controller" = App\Controller\Api\UploadController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new media resource"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new media resource of BileMo product"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can add media"
  *       }
  *  },
  *  itemOperations={
  *      "get" ={
- *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a media resource of BileMo product"},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *          "security_message"="You must be logged in to access this resource",
  *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:media"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update media"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a media resource of BileMo product"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can edit media",
  *       },
  *      "delete" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete media"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a media resource of BileMo product"},
  *          "security"="is_granted('ROLE_ADMIN')",
  *          "security_message"="Only admins can delete media",
  *      }

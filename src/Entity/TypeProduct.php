@@ -19,14 +19,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"create:type"}},
  *  collectionOperations={
  *      "get" ={
- *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo product categories"},
  *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *         "security_message"="You must be logged in to access this resource",
  *       },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:type"}},
  *         "openapi_context"={"security"={{"bearerAuth"={}}}, 
- *             "summary"="Admin - Create a new type product resource",
+ *             "summary"="Admin - Create a new product category resource of BileMo",
  *          },
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can add types",
@@ -35,18 +35,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  itemOperations={
  *      "get" = {
  *          "normalization_context"={"groups"={"read:type", "read:type:full"}},
- *          "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a product category resource of BileMo"},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *          "security_message"="You must be logged in to access this resource",
  *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:type"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update type product"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a product category resource of BileMo"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can edit types",
  *       },
  *      "delete" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete type product"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a product category resource of BileMo"},
  *          "security"="is_granted('ROLE_ADMIN')",
  *          "security_message"="Only admins can delete types",
  *       }

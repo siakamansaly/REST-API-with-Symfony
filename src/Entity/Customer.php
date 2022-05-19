@@ -27,23 +27,23 @@ use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
  *      denormalizationContext={"groups"={"create:customer"}, "swagger_definition_name"="Create"},
  *  collectionOperations={
  *      "get" = {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Customer collection"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - List of all Customers of BileMo"},
  *      },
  *      "post" = {
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new customer resource"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new customer resource of BileMo"},
  *     }
  *  },
  *  itemOperations={
  *      "get"={
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Get a Customer resource"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Get a Customer resource of BileMo"},
  *       },
  *      "patch"= {
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - The updated Customer resource"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a Customer resource of BileMo"},
  *       },
  *      "delete"={
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a Customer resource"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a Customer resource of BileMo"},
  *       }
  * }
  * )
