@@ -17,26 +17,33 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  collectionOperations={
  *      "get" = {
  *          "openapi_context"={"security"={{"bearerAuth"={}}}},
- *          "security"="is_granted('IS_AUTHENTICATED_FULLY')"},
+ *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *          "security_message"="You must be logged in to access this resource",
+ *     },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:media"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}},
- *         "security"="is_granted('ROLE_ADMIN')"
+ *         "controller" = App\Controller\Api\UploadController::class,
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new media resource"},
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Only admins can add media"
  *       }
  *  },
  *  itemOperations={
  *      "get" ={
  *          "openapi_context"={"security"={{"bearerAuth"={}}}},
- *          "security"="is_granted('IS_AUTHENTICATED_FULLY')"
+ *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *          "security_message"="You must be logged in to access this resource",
  *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:media"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}},
- *          "security"="is_granted('ROLE_ADMIN')"
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update media"},
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Only admins can edit media",
  *       },
  *      "delete" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}},
- *          "security"="is_granted('ROLE_ADMIN')"
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete media"},
+ *          "security"="is_granted('ROLE_ADMIN')",
+ *          "security_message"="Only admins can delete media",
  *      }
  * }
  * )

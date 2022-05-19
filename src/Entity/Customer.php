@@ -7,11 +7,8 @@ use App\Repository\CustomerRepository;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\Common\Collections\Collection;
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\Api\CustomerCreateController;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\Api\Customer\CustomerDeleteController;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
 
@@ -22,35 +19,34 @@ use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
  * @ApiResource(
  *      attributes={
  *        "order"={"createdAt": "DESC"},
- *        "security"="is_granted('ROLE_ADMIN')"
+ *        "security"="is_granted('ROLE_ADMIN')",
+ *        "security_message"="Only admins can access this resource",
  *      },
- *      paginationEnabled=false,
- *      normalizationContext={"groups"={"read:customer"}},
- *      denormalizationContext={"groups"={"create:customer"}},
+ *      paginationEnabled=true,
+ *      normalizationContext={"groups"={"read:customer"}, "swagger_definition_name"="Read", "exclude_swagger_definition"=true},
+ *      denormalizationContext={"groups"={"create:customer"}, "swagger_definition_name"="Create"},
  *  collectionOperations={
- *      "get" = {"normalization_context"={"groups"={"read:customer"}},
- *      "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *      "get" = {
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Customer collection"},
  *      },
  *      "post" = {
- *         "denormalization_context"={"groups"={"create:customer"}},
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new customer resource"},
  *     }
  *  },
  *  itemOperations={
- *      "get"={"normalization_context"={"groups"={"read:customer", "read:customer:full"}},
- *             "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *      "get"={
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Get a Customer resource"},
  *       },
  *      "patch"= {
- *          "normalization_context"={"groups"={"read:customer"}},
- *         "denormalization_context"={"groups"={"create:customer"}},
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - The updated Customer resource"},
  *       },
- *      "delete"={"openapi_context"={"security"={{"bearerAuth"={}}}},}
+ *      "delete"={
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a Customer resource"},
+ *       }
  * }
  * )
- * @ApiFilter(SearchFilter::class, properties={"name": "partial"})
  */
 class Customer
 {
@@ -71,7 +67,7 @@ class Customer
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"read:customer:full"})
+     * @Groups({"read:customer"})
      */
     private $createdAt;
 

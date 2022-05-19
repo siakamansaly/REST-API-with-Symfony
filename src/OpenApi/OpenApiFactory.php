@@ -10,22 +10,33 @@ use ApiPlatform\Core\OpenApi\Model\Parameter;
 use Symfony\Component\HttpFoundation\Response;
 use ApiPlatform\Core\OpenApi\Model\RequestBody;
 use ApiPlatform\Core\OpenApi\Factory\OpenApiFactoryInterface;
+use Symfony\Component\Security\Core\Security;
 
 class OpenApiFactory implements OpenApiFactoryInterface
 {
-    const SUMMARY="Hidden";
+    const SUMMARY="Admin";
+    const TOKEN="Token";
     private $decorated;
+    private $security;
+    
 
-    public function __construct(OpenApiFactoryInterface $decorated)
+    public function __construct(OpenApiFactoryInterface $decorated, Security $security)
     {
         $this->decorated = $decorated;
+        $this->security = $security;
     }
 
     public function __invoke(array $context = []): OpenApi
     {
         $openApi = $this->decorated->__invoke($context);
-        $openApi = $this->disableGetPath($openApi);
-        //$openApi = $this->addLogin($openApi);
+        if ($this->security->isGranted('ROLE_ADMIN')===false) {
+            $openApi = $this->disableGetPath($openApi);
+            $openApi = $this->disablePostPath($openApi);
+            $openApi = $this->disablePatchPath($openApi);
+            $openApi = $this->disableDeletePath($openApi);
+        }
+        
+        $openApi = $this->addPathToken($openApi);
         $openApi = $this->addBearer($openApi);
         
         return $openApi;
@@ -33,78 +44,133 @@ class OpenApiFactory implements OpenApiFactoryInterface
 
     public function disableGetPath(OpenApi $openApi): OpenApi
     {
-        // ** @var PathItem $path */
+        $array = new ArrayObject();
         foreach ($openApi->getPaths()->getPaths() as $key => $path) {
-            if ($path->getGet() && $path->getGet()->getSummary() === self::SUMMARY) {
+            if ($path->getGet() && substr($path->getGet()->getSummary(), 0, 5) === self::SUMMARY) {
                 $openApi->getPaths()->addPath($key, $path->withGet(null));
+            }
+            //dd($openApi, $path);
+        }
+        return $openApi;
+    }
+    public function disablePostPath(OpenApi $openApi): OpenApi
+    {
+        foreach ($openApi->getPaths()->getPaths() as $key => $path) {
+            if ($path->getPost() && substr($path->getPost()->getSummary(), 0, 5) === self::SUMMARY) {
+                $openApi->getPaths()->addPath($key, $path->withPost(null));
             }
         }
         return $openApi;
     }
 
-    public function addLogin(OpenApi $openApi): OpenApi
+    public function disablePatchPath(OpenApi $openApi): OpenApi
+    {
+        foreach ($openApi->getPaths()->getPaths() as $key => $path) {
+            if ($path->getPatch() && substr($path->getPatch()->getSummary(), 0, 5) === self::SUMMARY) {
+                $openApi->getPaths()->addPath($key, $path->withPatch(null));
+            }
+        }
+        return $openApi;
+    }
+
+    public function disableDeletePath(OpenApi $openApi): OpenApi
+    {
+        foreach ($openApi->getPaths()->getPaths() as $key => $path) {
+            if ($path->getDelete() && substr($path->getDelete()->getSummary(), 0, 5) === self::SUMMARY) {
+                $openApi->getPaths()->addPath($key, $path->withDelete(null));
+            }
+        }
+        return $openApi;
+    }
+
+    public function disableSchema(OpenApi $openApi): OpenApi
     {
         $schemas = $openApi->getComponents()->getSchemas();
+        $count = 0;
+        foreach ($schemas as $key => $schema) {
+            if (strpos($key, 'Customer', 0) === 0) {
+                $schemas->offsetSet($key, null);
+                $count++;
+                //$schemas->offsetUnset($key);
+            }
+            $schemas->offsetUnset($key);
+        }
+        //dd($count);
+        return $openApi;
+    }
 
-        $schemas['Token'] = new \ArrayObject([
+    public function addPathToken(OpenApi $openApi): OpenApi
+    {
+        $schemas = $openApi->getComponents()->getSchemas();
+        $schemas['Authentification-credentials'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
-                'token' => [
-                    'type' => 'string',
-                    'readOnly' => true,
-                ],
-            ],
-        ]);
-        $schemas['Credentials'] = new \ArrayObject([
-            'type' => 'object',
-            'properties' => [
-                'email' => [
+                'username' => [
                     'type' => 'string',
                     'example' => 'johndoe@example.com',
                 ],
                 'password' => [
                     'type' => 'string',
-                    'example' => 'apassword',
+                    'example' => 'password',
+                ],
+            ],
+        ]);
+        $schemas['Authentification-token'] = new \ArrayObject([
+            'type' => 'object',
+            'properties' => [
+                'token' => [
+                    'type' => 'string',
+                    'readOnly' => true,
+                    'example' => 'string',
                 ],
             ],
         ]);
 
         $pathItem = new Model\PathItem(
-            'JWTToken',
-            'Get a JWT Token',
-            'Get a JWT Token',
+            'JWT Token',
+            null,
+            null,
+            null,
+            null,
             new Model\Operation(
-                'postCredentialsItem',
-                ['Token'],
+                'postTokenItem',
+                ['Authentification'],
                 [
                     '200' => [
-                        'description' => 'Get JWT token',
+                        'description' => 'Generate token',
                         'content' => [
                             'application/json' => [
                                 'schema' => [
-                                    '$ref' => '#/components/schemas/Token',
+                                    '$ref' => '#/components/schemas/Authentification-token',
                                 ],
                             ],
                         ],
                     ],
+                    '401' => [
+                        'description' => 'Error generating token',
+                    ],
                 ],
-                'Get JWT token to login.',
+                'Generate token to login. (validity : 1 hour)',
+                '',
+                null,
+                [],
                 new Model\RequestBody(
-                    'Generate new JWT Token',
+                    'Generate new JWT Token (validity : 1 hour)',
                     new \ArrayObject([
                         'application/json' => [
                             'schema' => [
-                                '$ref' => '#/components/schemas/Credentials',
+                                '$ref' => '#/components/schemas/Authentification-credentials',
                             ],
                         ],
                     ]),
                 ),
             ),
         );
-        $openApi->getPaths()->addPath('/authentication_token', $pathItem);
+        $openApi->getPaths()->addPath('/_token', $pathItem);
+        // Sort the schemas and the endpoints, because that's nicer
+        //ksort($schemas);
 
         return $openApi;
-
     }
 
 

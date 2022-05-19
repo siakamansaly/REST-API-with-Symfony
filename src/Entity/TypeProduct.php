@@ -14,7 +14,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ApiResource(
  *      attributes={
  *        "order"={"id": "ASC"},
- *        "security"="is_granted('ROLE_ADMIN')",
  *      },
  *      normalizationContext={"groups"={"read:type"}},
  *      denormalizationContext={"groups"={"create:type"}},
@@ -22,10 +21,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      "get" ={
  *         "openapi_context"={"security"={{"bearerAuth"={}}}},
  *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *         "security_message"="You must be logged in to access this resource",
  *       },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:type"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}}
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, 
+ *             "summary"="Admin - Create a new type product resource",
+ *          },
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Only admins can add types",
  *       }
  *  },
  *  itemOperations={
@@ -33,13 +37,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *          "normalization_context"={"groups"={"read:type", "read:type:full"}},
  *          "openapi_context"={"security"={{"bearerAuth"={}}}},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+ *          "security_message"="You must be logged in to access this resource",
  *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:type"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}}
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update type product"},
+ *         "security"="is_granted('ROLE_ADMIN')",
+ *         "security_message"="Only admins can edit types",
  *       },
  *      "delete" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}}
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete type product"},
+ *          "security"="is_granted('ROLE_ADMIN')",
+ *          "security_message"="Only admins can delete types",
  *       }
  * }
  * )
