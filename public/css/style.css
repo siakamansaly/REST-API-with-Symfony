@@ -1364,7 +1364,7 @@ a:hover {
 
 .app-features .app-explore {
   display: flex;
-  justify-content: center !important;
+  justify-content: center;
   margin-bottom: 40px;
 }
 
