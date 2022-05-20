@@ -213,7 +213,7 @@ a:hover {
 }
 
 .text-primary {
-  color: #288690 !important;
+  color: #288690;
 }
 
 .bg-gray {
@@ -707,7 +707,7 @@ a:hover {
 }
 
 .call-to-action-app h2, .call-to-action-app p, .call-to-action-app a {
-  color: #fff !important;
+  color: #fff;
 }
 
 .call-to-action-app p {
@@ -1269,7 +1269,7 @@ a:hover {
 
 .services .app-preview {
   display: flex;
-  justify-content: center !important;
+  justify-content: center;
 }
 
 .services .app-preview img {
@@ -2304,3 +2304,7 @@ a:hover {
   margin-bottom: 30px;
 }
 /*# sourceMappingURL=maps/style.css.map */
+
+.swagger-ui section .models {
+  display: none;
+}
