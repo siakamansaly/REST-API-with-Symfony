@@ -53,24 +53,10 @@ class AppUserAuthenticator extends AbstractLoginFormAuthenticator
         return new RedirectResponse($this->urlGenerator->generate('api_entrypoint'));
     }
 
-    protected function getLoginUrl(?Request $request): string
+    protected function getLoginUrl(Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
 
-     /**
-     * Override to control what happens when the user hits a secure page
-     * but isn't logged in yet.
-     * 
-     * @return Response|JsonResponse
-     */
-    public function start(Request $request, ?AuthenticationException $authException = null) : Response
-    {
-        if(in_array('application/json', $request->getAcceptableContentTypes())) {
-            return new JsonResponse(null, Response::HTTP_UNAUTHORIZED);
-        }
 
-        $url = $this->getLoginUrl($request);
-        return new RedirectResponse($url);
-    }
 }
