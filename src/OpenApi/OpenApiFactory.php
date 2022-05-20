@@ -44,12 +44,10 @@ class OpenApiFactory implements OpenApiFactoryInterface
 
     public function disableGetPath(OpenApi $openApi): OpenApi
     {
-        $array = new ArrayObject();
         foreach ($openApi->getPaths()->getPaths() as $key => $path) {
             if ($path->getGet() && substr($path->getGet()->getSummary(), 0, 5) === self::SUMMARY) {
                 $openApi->getPaths()->addPath($key, $path->withGet(null));
             }
-            //dd($openApi, $path);
         }
         return $openApi;
     }
@@ -80,22 +78,6 @@ class OpenApiFactory implements OpenApiFactoryInterface
                 $openApi->getPaths()->addPath($key, $path->withDelete(null));
             }
         }
-        return $openApi;
-    }
-
-    public function disableSchema(OpenApi $openApi): OpenApi
-    {
-        $schemas = $openApi->getComponents()->getSchemas();
-        $count = 0;
-        foreach ($schemas as $key => $schema) {
-            if (strpos($key, 'Customer', 0) === 0) {
-                $schemas->offsetSet($key, null);
-                $count++;
-                //$schemas->offsetUnset($key);
-            }
-            $schemas->offsetUnset($key);
-        }
-        //dd($count);
         return $openApi;
     }
 
@@ -167,8 +149,6 @@ class OpenApiFactory implements OpenApiFactoryInterface
             ),
         );
         $openApi->getPaths()->addPath('/_token', $pathItem);
-        // Sort the schemas and the endpoints, because that's nicer
-        //ksort($schemas);
 
         return $openApi;
     }

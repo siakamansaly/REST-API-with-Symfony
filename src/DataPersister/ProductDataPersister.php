@@ -17,14 +17,13 @@ final class ProductDataPersister implements DataPersisterInterface
     }
 
 
-    public function supports($data, array $context = []): bool
+    public function supports($data, ?array $context = []): bool
     {
         return $data instanceof Product;
     }
 
-    public function persist($data, array $context = [])
+    public function persist($data, ?array $context = [])
     {
-        
         // Set values
         $date = new \DateTime();
         $data->setCreatedAt($date);
@@ -35,7 +34,7 @@ final class ProductDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data, array $context = [])
+    public function remove($data, ?array $context = [])
     {
         // Doctrine Remove Customer
         $this->entityManager->remove($data);

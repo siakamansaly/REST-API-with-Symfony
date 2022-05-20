@@ -45,19 +45,15 @@ class AppUserAuthenticator extends AbstractLoginFormAuthenticator
         );
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
+    public function onAuthenticationSuccess(Request $request, ?TokenInterface $token, string $firewallName): ?Response
     {
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
-
-        // For example:
-        //return new RedirectResponse($this->urlGenerator->generate('some_route'));
         return new RedirectResponse($this->urlGenerator->generate('api_entrypoint'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
-    protected function getLoginUrl(Request $request): string
+    protected function getLoginUrl(?Request $request): string
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
     }
@@ -68,7 +64,7 @@ class AppUserAuthenticator extends AbstractLoginFormAuthenticator
      * 
      * @return Response|JsonResponse
      */
-    public function start(Request $request, AuthenticationException $authException = null) : Response
+    public function start(Request $request, ?AuthenticationException $authException = null) : Response
     {
         if(in_array('application/json', $request->getAcceptableContentTypes())) {
             return new JsonResponse(null, Response::HTTP_UNAUTHORIZED);
