@@ -2304,3 +2304,7 @@ a:hover {
   margin-bottom: 30px;
 }
 /*# sourceMappingURL=maps/style.css.map */
+
+.swagger-ui section .models {
+  display: none;
+}
