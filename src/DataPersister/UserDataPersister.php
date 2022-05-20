@@ -21,13 +21,19 @@ final class UserDataPersister implements DataPersisterInterface
     }
 
 
-    public function supports($data, ?array $context = []): bool
+    public function supports($data, array $context = []): bool
     {
+        if ($context['resource_class'] !== User::class) {
+            return false;
+        }
         return $data instanceof User;
     }
 
-    public function persist($data, ?array $context = [])
+    public function persist($data, array $context = [])
     {
+        if ($context['resource_class'] !== User::class) {
+            return false;
+        }
         // Hash password
         $data->setPassword($this->passwordHasher->hashPassword($data, $data->getPassword()));
 
@@ -44,8 +50,11 @@ final class UserDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data, ?array $context = [])
+    public function remove($data, array $context = [])
     {
+        if ($context['resource_class'] !== User::class) {
+            return false;
+        }
         // Doctrine Remove User
         $this->entityManager->remove($data);
         $this->entityManager->flush();

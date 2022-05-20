@@ -15,13 +15,19 @@ final class CustomerDataPersister implements DataPersisterInterface
     }
 
 
-    public function supports($data, ?array $context = []): bool
+    public function supports($data, array $context = []): bool
     {
+        if ($context['resource_class'] !== Customer::class) {
+            return false;
+        }
         return $data instanceof Customer;
     }
 
-    public function persist($data, ?array $context = [])
+    public function persist($data, array $context = [])
     {
+        if ($context['resource_class'] !== Customer::class) {
+            return false;
+        }
         // Set Date 
         $data->setCreatedAt(new \DateTime());
 
@@ -30,8 +36,11 @@ final class CustomerDataPersister implements DataPersisterInterface
         $this->entityManager->flush();
     }
 
-    public function remove($data, ?array $context = [])
+    public function remove($data, array $context = [])
     {
+        if ($context['resource_class'] !== Customer::class) {
+            return false;
+        }
         // Doctrine Remove Customer
         $this->entityManager->remove($data);
         $this->entityManager->flush();

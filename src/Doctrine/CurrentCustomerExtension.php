@@ -20,12 +20,12 @@ class CurrentCustomerExtension implements QueryCollectionExtensionInterface, Que
         $this->entityManager = $entityManager;
     }
 
-    public function applyToCollection(QueryBuilder $queryBuilder, ?QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?string $operationName = null)
+    public function applyToCollection(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, ?string $operationName = null)
     {
         $this->addWhere($resourceClass, $queryBuilder);
     }
 
-    public function applyToItem(QueryBuilder $queryBuilder, ?QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, $operationName = null, array $context = [])
+    public function applyToItem(QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, array $identifiers, $operationName = null, array $context = [])
     {
         $this->addWhere($resourceClass, $queryBuilder);
     }
