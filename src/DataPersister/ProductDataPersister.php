@@ -19,12 +19,17 @@ final class ProductDataPersister implements DataPersisterInterface
 
     public function supports($data, array $context = []): bool
     {
+        if ($context['resource_class'] !== Product::class) {
+            return false;
+        }
         return $data instanceof Product;
     }
 
     public function persist($data, array $context = [])
     {
-        
+        if ($context['resource_class'] !== Product::class) {
+            return false;
+        }
         // Set values
         $date = new \DateTime();
         $data->setCreatedAt($date);
@@ -37,6 +42,9 @@ final class ProductDataPersister implements DataPersisterInterface
 
     public function remove($data, array $context = [])
     {
+        if ($context['resource_class'] !== Product::class) {
+            return false;
+        }
         // Doctrine Remove Customer
         $this->entityManager->remove($data);
         $this->entityManager->flush();

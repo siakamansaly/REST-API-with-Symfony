@@ -1,7 +1,7 @@
 <div id="top"></div>
 <div align="right">
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/84e30cbee58949cbad70ebaef13a299c)](https://www.codacy.com/gh/siakamansaly/Community_Website_with_Symfony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=siakamansaly/Community_Website_with_Symfony&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/48b3eef92a06470a86c89ffcd62ca399)](https://www.codacy.com/gh/siakamansaly/REST-API-with-Symfony/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=siakamansaly/REST-API-with-Symfony&amp;utm_campaign=Badge_Grade)
 
 </div>
 <!-- PROJECT LOGO -->
