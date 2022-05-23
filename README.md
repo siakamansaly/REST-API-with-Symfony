@@ -27,8 +27,8 @@
 <ul>
   <li>a link to the API documentation</li>
   <li>a endpoint to connection</li>
-  <li>endpoints to view products BileMo </li>
-  <li>endpoints to manage my users</li>
+  <li>endpoints to view products</li>
+  <li>endpoints to manage users</li>
 </ul>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -109,7 +109,6 @@ To get a local copy up and running follow these simple example steps :
    -Username : customer1@example.fr
    -Password : password
    ```
-
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
