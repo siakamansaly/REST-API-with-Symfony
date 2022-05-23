@@ -282,6 +282,7 @@ class Product
      */
     public function getCurrency() : ?string
     {
-        return "EUR";
+        $this->currency = "EUR";
+        return $this->currency;
     }
 }
