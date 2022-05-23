@@ -30,3 +30,6 @@ h1 {
 .swagger-ui section .models {
     display: none;
 }
+.navbar-nav li {
+    text-transform: uppercase;
+}
