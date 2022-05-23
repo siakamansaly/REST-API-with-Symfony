@@ -140,7 +140,7 @@ Siaka MANSALY : [siaka.mansaly@gmail.com](siaka.mansaly@gmail.com)
 
 LinkedIn : [https://www.linkedin.com/in/siaka-mansaly/](https://www.linkedin.com/in/siaka-mansaly/)
 
-Project Link: [https://github.com/siakamansaly/Community_Website_with_Symfony](https://github.com/siakamansaly/Community_Website_with_Symfony.git)
+Project Link: [https://github.com/siakamansaly/REST-API-with-Symfony](https://github.com/siakamansaly/REST-API-with-Symfony)
               
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -149,7 +149,6 @@ Project Link: [https://github.com/siakamansaly/Community_Website_with_Symfony](h
 Thanks to my mentor [Hamza](https://github.com/Hamzasakrani) for his guidance and support!
 
 <ul>
-  <li><a href="https://github.com/FakerPHP/Faker" target="_blank">Faker</a></li>
   <li><a href="https://cs.symfony.com/" target="_blank">PHP CS Fixer</a></li>
   <li><a href="https://phpunit.de/index.html" target="_blank">PHP Unit</a></li>
 </ul>
