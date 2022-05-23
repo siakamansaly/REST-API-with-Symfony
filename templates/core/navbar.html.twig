@@ -19,11 +19,11 @@
             <a class="nav-link text-light text-lowercase disabled" href="#">{{app.user.email|capitalize }}</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link text-light bg-secondary" href="{{ path('app_logout') }}">Logout</a>
+            <a class="nav-link text-light border border-light" href="{{ path('app_logout') }}">Logout</a>
           </li>
           {% else %}
           <li class="nav-item">
-            <a class="nav-link bg-secondary" href="{{ path('app_login') }}">Sign in</a>
+            <a class="nav-link text-light border border-light" href="{{ path('app_login') }}">Sign in</a>
           </li>
           {% endif %}
         </ul>

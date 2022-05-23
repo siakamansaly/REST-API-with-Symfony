@@ -27,9 +27,10 @@ h1 {
     background: #288690;
 }
 
-.swagger-ui section .models {
+section.models {
     display: none;
 }
-.navbar-nav li {
+.navbar-nav > li {
     text-transform: uppercase;
+    text-align: center;
 }
