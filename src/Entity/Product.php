@@ -100,6 +100,12 @@ class Product
     private $price;
 
     /**
+     * ApiProperty()
+     * @Groups({"read:product"})
+     */
+    private $currency;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      * @Groups({"read:product"})
      */
@@ -269,5 +275,13 @@ class Product
         }
 
         return $this;
+    }
+
+    /**
+     * Get currency()
+     */
+    public function getCurrency() : ?string
+    {
+        return "EUR";
     }
 }
