@@ -37,3 +37,15 @@ section.models {
     text-transform: uppercase;
     text-align: center;
 }
+.navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    color: #fff;
+}
+.navbar-expand-lg .navbar-nav .nav-link:hover {
+    background-color: #50e3c2;
+    color: #000;
+}
+pre {
+    overflow: hidden;
+}
