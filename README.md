@@ -22,13 +22,13 @@
 <div align="center">
     <img src="public/images/Screenshot.png" alt="Screenshot" width="700px">
 </div>
-<p>Creation of a REST API allowing a customer to expose products to its users</p>
+<p>Creation of a REST API allowing a customer to expose BileMo products to its users</p>
 <p>The project contains:</p>
 <ul>
+  <li>a link to the API documentation</li>
   <li>a endpoint to connection</li>
-  <li>a frontend part with Tricks presentation </li>
-  <li>a part allowing users to comment on a Trick</li>
-  <li>a backend part to manage tricks.</li>
+  <li>endpoints to view products BileMo </li>
+  <li>endpoints to manage my users</li>
 </ul>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -38,8 +38,9 @@
 
 This section list the main frameworks/libraries used to start your project.
 <ul>
-  <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony 5.4.6</a></li>
+  <li><a href="https://symfony.com/doc/5.4/index.html" target="_blank">Symfony 5.4.7</a></li>
   <li><a href="https://api-platform.com/" target="_blank">API Platform</a></li>
+  <li><a href="https://jwt.io/" target="_blank">JWT</a></li>
   <li><a href="https://getbootstrap.com/" target="_blank">Bootstrap</a></li>
   <li><a href="https://jquery.com" target="_blank">JQuery</a></li>
   <li><a href="https://www.php.net/" target="_blank">PHP</a></li>
@@ -96,13 +97,19 @@ To get a local copy up and running follow these simple example steps :
    ```sh
    php -S localhost:8000 -t public/
    ```  
-7.&nbsp;Log in with the following administrator account :
+7.&nbsp;Log in with an account :
+
+   Administrator account
    ```sh
    -Username : admin@example.fr
    -Password : password
    ```
+   Customer account
+   ```sh
+   -Username : customer1@example.fr
+   -Password : password
+   ```
 
-8.&nbsp;Finally, change the **email** and use the "Forgot password" section to change **password** of administrator account
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
