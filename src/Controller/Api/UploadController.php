@@ -23,12 +23,13 @@ class UploadController extends AbstractController
         $this->errorService = $errorService;
     }
 
-    public function __invoke(MediaPicture $data, Request $request)
+    public function __invoke(Request $request)
     {
         $uploadedFile = $request->files->get('file');
+        $product = $request->request->get('product');
 
         if (!$uploadedFile) {
-            dd($uploadedFile);
+            dd($uploadedFile, $product);
             $message = 'No file uploaded';
             $property_path = 'file';
             $this->details.= $this->errorService->addDetailError($this->details, $property_path, $message);
@@ -37,9 +38,9 @@ class UploadController extends AbstractController
                 return $this->json($this->errorService->ErrorPersist($this->violations, $this->details), 422);
             }
         }
-        dd($uploadedFile);
-        $data->setName($uploadedFile->getClientOriginalName());
+        dd($uploadedFile, $product);
+        //$data->setName($uploadedFile->getClientOriginalName());
 
-        return $data;
+        //return $data;
     }
 }

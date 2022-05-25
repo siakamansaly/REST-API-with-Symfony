@@ -19,14 +19,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"create:type"}},
  *  collectionOperations={
  *      "get" ={
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo product categories"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo product categories", "description"="List of all BileMo product categories. (only authenticated users can access this resource)<br/> Max categories per page: 30"},
  *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *         "security_message"="You must be logged in to access this resource",
  *       },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:type"}},
  *         "openapi_context"={"security"={{"bearerAuth"={}}}, 
- *             "summary"="Admin - Create a new product category resource of BileMo",
+ *             "summary"="Admin - Create a new product category resource of BileMo", "description"="Create a new product category resource of BileMo (admin only)",
  *          },
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can add types",
@@ -35,18 +35,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *  itemOperations={
  *      "get" = {
  *          "normalization_context"={"groups"={"read:type", "read:type:full"}},
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a product category resource of BileMo"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a product category resource of BileMo", "description"="Get a product category resource of BileMo (only authenticated users can access this resource)"},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *          "security_message"="You must be logged in to access this resource",
  *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:type"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a product category resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a product category resource of BileMo", "description"="Update a product category resource of BileMo (admin only)"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can edit types",
  *       },
  *      "delete" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a product category resource of BileMo"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a product category resource of BileMo", "description"="Delete a product category resource of BileMo (admin only)"},
  *          "security"="is_granted('ROLE_ADMIN')",
  *          "security_message"="Only admins can delete types",
  *       }

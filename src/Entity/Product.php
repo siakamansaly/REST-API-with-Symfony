@@ -19,21 +19,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"create:product"}},
  *  collectionOperations={
  *      "get" = {"normalization_context"={"groups"={"read:product"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo products"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo products", "description"="List of all BileMo products. (only authenticated users can access this resource)<br/> Max products per page: 30"},
  *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *         "security_message"="You must be logged in to access this resource",
  *      },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:product"}},
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new product resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new product resource of BileMo", "description"="Create a new product resource of BileMo (admin only)"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can add products",
  *       }
  *  },
  *  itemOperations={
  *      "get"={"normalization_context"={"groups"={"read:product", "read:product:full"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a product resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a product resource of BileMo", "description"="Get a product resource of BileMo (only authenticated users can access this resource)"},
  *         "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *         "security_message"="You must be logged in to access this resource",
  *       },
@@ -41,12 +41,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *         "normalization_context"={"groups"={"read:product"}},
  *         "denormalization_context"={"groups"={"create:product"}},
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a product resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a product resource of BileMo", "description"="Update a product resource of BileMo (admin only)"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can edit products",
  *       },
  *      "delete" = {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a product resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a product resource of BileMo", "description"="Delete a product resource of BileMo (admin only)"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can delete products",
  *      }

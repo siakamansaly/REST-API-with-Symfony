@@ -22,28 +22,27 @@ use Symfony\Component\Validator\Constraints\NotBlank as NotBlank;
  *        "security"="is_granted('ROLE_ADMIN')",
  *        "security_message"="Only admins can access this resource",
  *      },
- *      paginationEnabled=true,
- *      normalizationContext={"groups"={"read:customer"}, "swagger_definition_name"="Read", "exclude_swagger_definition"=true},
- *      denormalizationContext={"groups"={"create:customer"}, "swagger_definition_name"="Create"},
+ *      normalizationContext={"groups"={"read:customer"}},
+ *      denormalizationContext={"groups"={"create:customer"}},
  *  collectionOperations={
  *      "get" = {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - List of all Customers of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - List of all Customers of BileMo", "description"="List of all Customers of BileMo (admin only).<br/> Max customers per page: 30"},
  *      },
  *      "post" = {
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new customer resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new customer resource of BileMo", "description"="Create a new customer resource of BileMo (admin only)"},
  *     }
  *  },
  *  itemOperations={
  *      "get"={
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Get a Customer resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Get a Customer resource of BileMo", "description"="Get a Customer resource of BileMo (admin only)"},
  *       },
  *      "patch"= {
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a Customer resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a Customer resource of BileMo", "description"="Update a Customer resource of BileMo (admin only)"},
  *       },
  *      "delete"={
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a Customer resource of BileMo"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a Customer resource of BileMo", "description"="Delete a Customer resource of BileMo (admin only)"},
  *       }
  * }
  * )

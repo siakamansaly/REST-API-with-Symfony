@@ -79,8 +79,7 @@ To get a local copy up and running follow these simple example steps :
 3.&nbsp;You customize variables of file **.env** as needed to run the environment.
    ```sh
    DATABASE_URL="mysql://db_user:db_password@127.0.0.1:3306/db_name?serverVersion=5.7&charset=utf8mb4"
-   ADMIN_EMAIL=admin@example.fr
-   MAILER_DSN=smtp://localhost
+   JWT_PASSPHRASE=EnterYourPassPhraseHere # required for token creation
    ```
 4.&nbsp;Create database
    ```sh
@@ -89,15 +88,19 @@ To get a local copy up and running follow these simple example steps :
    ```sh
    php bin/console doctrine:migrations:migrate
    ```
-5.&nbsp;Load fixtures (optional)
+5.&nbsp;Load fixtures
    ```sh
    php bin/console doctrine:fixtures:load
    ```
-6.&nbsp;Run project
+6.&nbsp;Generate the SSL keys
+   ```sh
+   php bin/console lexik:jwt:generate-keypair
+   ```
+7.&nbsp;Run project
    ```sh
    php -S localhost:8000 -t public/
    ```  
-7.&nbsp;Log in with an account :
+8.&nbsp;Log in with an account :
 
    Administrator account
    ```sh
@@ -109,6 +112,8 @@ To get a local copy up and running follow these simple example steps :
    -Username : customer1@example.fr
    -Password : password
    ```
+9.&nbsp;Documentation link : http://localhost:8000/api
+
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 

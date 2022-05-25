@@ -34,15 +34,15 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
  *            "pagination_enabled"=false,
  *            "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *            "security_message"="You must be logged in to access this resource",
- *            "openapi_context"={"summary"="Get the current user", "security"={{"bearerAuth"={}}}}, 
+ *            "openapi_context"={"summary"="Get the current user", "description"="Get the current user (authenticated owner user only)","security"={{"bearerAuth"={}}}},  
  *       },
  *      "get"={
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all users of Customer"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all users of Customer", "description"="List of all users of Customer. (owner customer and admin only)<br/> Max users per page: 30"},
  *          "security"="is_granted('ROLE_CUSTOMER') or is_granted('ROLE_ADMIN')",
  *          "security_message"="Only customers or admins can access this resource",
  *       },
  *      "post"= {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Create a new user resource of Customer"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Create a new user resource of Customer", "description"="Create a new user resource of Customer (owner customer and admin only)"},
  *         "denormalization_context"={"groups"={"create:user"}},
  *         "controller"=App\Controller\Api\AlreadyExistsController::class, 
  *         "security"="is_granted('ROLE_CUSTOMER') or is_granted('ROLE_ADMIN')",
@@ -51,17 +51,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity as UniqueEntity;
  *  },
  *  itemOperations={
  *      "get"= {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a user resource of Customer"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a user resource of Customer", "description"="Get a user resource of Customer (owner user, owner customer and admin only)"},
  *         "security"="is_granted('USER_VIEW', object)",
  *         "security_message"="Restricted to owner customer or admins",
  *       },
  *      "delete"= {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Delete a user resource of Customer"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Delete a user resource of Customer", "description"="Delete a user resource of Customer (owner customer and admin only)"},
  *         "security"="is_granted('USER_DELETE', object)",
  *         "security_message"="Restricted to owner customer or admins",
  *       },
  *      "patch"= {
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Update a user resource of Customer"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Update a user resource of Customer", "description"="Update a user resource of Customer (owner user, owner customer and admin only)"},
  *         "denormalization_context"={"groups"={"edit:user"}},
  *         "controller" = App\Controller\Api\AlreadyExistsController::class,
  *         "security"="is_granted('USER_EDIT', object)",

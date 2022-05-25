@@ -89,7 +89,7 @@ class OpenApiFactory implements OpenApiFactoryInterface
             'properties' => [
                 'username' => [
                     'type' => 'string',
-                    'example' => 'johndoe@example.com',
+                    'example' => 'johndoe@example.fr',
                 ],
                 'password' => [
                     'type' => 'string',
@@ -126,20 +126,40 @@ class OpenApiFactory implements OpenApiFactoryInterface
                                     '$ref' => '#/components/schemas/Authentification-token',
                                 ],
                             ],
+                            'application/ld+json' => [
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Authentification-token',
+                                ],
+                            ],
+                            'text/html' => [
+                                'schema' => [
+                                    '$ref' => '#/components/schemas/Authentification-token',
+                                ],
+                            ],
                         ],
                     ],
                     '401' => [
                         'description' => 'Error generating token',
                     ],
                 ],
-                'Generate token to login. (validity : 1 hour)',
+                'Log in to generate a authentication token (validity : 1 hour)',
                 '',
                 null,
                 [],
                 new Model\RequestBody(
-                    'Generate new JWT Token (validity : 1 hour)',
+                    'Log in to generate a authentication token so you can access BileMo resources (validity : 1 hour)',
                     new \ArrayObject([
                         'application/json' => [
+                            'schema' => [
+                                '$ref' => '#/components/schemas/Authentification-credentials',
+                            ],
+                        ],
+                        'application/ld+json' => [
+                            'schema' => [
+                                '$ref' => '#/components/schemas/Authentification-credentials',
+                            ],
+                        ],
+                        'text/html' => [
                             'schema' => [
                                 '$ref' => '#/components/schemas/Authentification-credentials',
                             ],
