@@ -2,13 +2,16 @@ api_platform:
     # The title of the API.
     title: 'BileMo API Documentation'
     # The description of the API.
-    description: 'Private API. The web service of the company BileMo for developers. <br/>The BileMo API allows users to obtain an authentication key for a given customer. This authentication key will then be used in other endpoints to retrieve data from BileMo products.'
+    description: 'Private API. The web service of the company BileMo for developers. <br/>The BileMo API allows users to obtain an authentication token for a given customer. This authentication token will then be used in other endpoints to retrieve data from BileMo products.'
     # Set this to false if you want Webby to disappear.
     show_webby: false
     # The version of the API.
     version: '1.0.0'
     defaults:
         pagination_items_per_page: 10 # Default value
+        pagination_maximum_items_per_page: 30
+        pagination_client_enabled: true
+        pagination_enabled: true
         url_generation_strategy: !php/const ApiPlatform\Core\Api\UrlGeneratorInterface::ABS_URL
         #cache_headers:
             #max_age: 0
@@ -30,6 +33,7 @@ api_platform:
         jsonld:   ['application/ld+json']
         json:     ['application/json']
         html:     ['text/html']
+        # multipart: ['multipart/form-data']
         # jsonapi:  ['application/vnd.api+json']
         # xml:      ['application/xml', 'text/xml']
         # yaml:     ['application/x-yaml']
@@ -39,7 +43,12 @@ api_platform:
         jsonproblem:                   ['application/problem+json']
         jsonld:                        ['application/ld+json']      # Hydra error formats
         # jsonapi:                       ['application/vnd.api+json']
-
+    enable_re_doc: false
+    graphql:
+        graphiql:
+            enabled: false
+        graphql_playground:
+            enabled: false
     #http_cache:
         #invalidation:
             #enabled: true

@@ -16,32 +16,31 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *      denormalizationContext={"groups"={"create:media"}},
  *  collectionOperations={
  *      "get" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo product pictures"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="List of all BileMo product pictures", "description"="List of all BileMo product pictures. (only authenticated users can access this resource)<br/> Max pictures per page: 30"},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *          "security_message"="You must be logged in to access this resource",
  *     },
  *      "post" = {
  *         "denormalization_context"={"groups"={"create:media"}},
- *         "controller" = App\Controller\Api\UploadController::class,
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new media resource of BileMo product"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Create a new media resource of BileMo product", "description"="Create a new media resource of BileMo product (admin only)"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can add media"
  *       }
  *  },
  *  itemOperations={
  *      "get" ={
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a media resource of BileMo product"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Get a media resource of BileMo product", "description"="Get a media resource of BileMo product (only authenticated users can access this resource)"},
  *          "security"="is_granted('IS_AUTHENTICATED_FULLY')",
  *          "security_message"="You must be logged in to access this resource",
  *       },
  *      "patch"= {
  *         "denormalization_context"={"groups"={"create:media"}},
- *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a media resource of BileMo product"},
+ *         "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Update a media resource of BileMo product", "description"="Update a media resource of BileMo product (admin only)"},
  *         "security"="is_granted('ROLE_ADMIN')",
  *         "security_message"="Only admins can edit media",
  *       },
  *      "delete" = {
- *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a media resource of BileMo product"},
+ *          "openapi_context"={"security"={{"bearerAuth"={}}}, "summary"="Admin - Delete a media resource of BileMo product", "description"="Delete a media resource of BileMo product (admin only)"},
  *          "security"="is_granted('ROLE_ADMIN')",
  *          "security_message"="Only admins can delete media",
  *      }
