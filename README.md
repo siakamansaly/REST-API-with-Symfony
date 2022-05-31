@@ -100,7 +100,9 @@ To get a local copy up and running follow these simple example steps :
    ```sh
    php -S localhost:8000 -t public/
    ```  
-8.&nbsp;Log in with an account :
+8.&nbsp;Documentation link : http://localhost:8000/api
+
+9.&nbsp;Log in with an account :
 
    Administrator account
    ```sh
@@ -112,7 +114,6 @@ To get a local copy up and running follow these simple example steps :
    -Username : customer1@example.fr
    -Password : password
    ```
-9.&nbsp;Documentation link : http://localhost:8000/api
 
 
 <p align="right">(<a href="#top">back to top</a>)</p>
