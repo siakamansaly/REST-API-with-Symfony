@@ -71,10 +71,13 @@ To get a local copy up and running follow these simple example steps :
    git clone https://github.com/siakamansaly/REST-API-with-Symfony.git
    ```
 
-2.&nbsp;Install composer packages
+2.&nbsp;Install composer packages and npm packages
    ```sh
    cd REST-API-with-Symfony
    composer install
+   ```
+   ```sh
+   npm install
    ```
 3.&nbsp;You customize variables of file **.env** as needed to run the environment.
    ```sh
