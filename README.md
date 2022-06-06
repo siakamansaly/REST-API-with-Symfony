@@ -56,10 +56,10 @@ This section list the main frameworks/libraries used to start your project.
 
 This is the list of things you need to use the software.
    ```sh
-      - PHP: >=7.2.5
+      - PHP: >=7.4
       - MySQL
-      - Composer
-      - OpenSSL
+      - [Composer](https://getcomposer.org/)
+      - [OpenSSL](https://www.openssl.org/)
    ```
 <!-- GETTING STARTED -->
 ## Getting Started
