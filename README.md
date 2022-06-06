@@ -58,8 +58,8 @@ This is the list of things you need to use the software.
    ```sh
       - PHP: >=7.4
       - MySQL
-      - [Composer](https://getcomposer.org/)
-      - [OpenSSL](https://www.openssl.org/)
+      - Composer (https://getcomposer.org/)
+      - OpenSSL (https://www.openssl.org/)
    ```
 <!-- GETTING STARTED -->
 ## Getting Started
